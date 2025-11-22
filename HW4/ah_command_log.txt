@@ -1,0 +1,273 @@
+-----------------------------------------------------------------------------
+
+root@n1:/home/core/homeworks/HW4# setkey -D 
+No SAD entries.
+root@n1:/home/core/homeworks/HW4# setkey -DP
+No SPD entries.
+root@n1:/home/core/homeworks/HW4# cat n1_ah_transport.conf 
+flush;
+spdflush;
+
+# SPD: security policies
+spdadd 10.0.0.20 10.0.2.20 any -P out ipsec
+    ah/transport//require;
+
+spdadd 10.0.2.20 10.0.0.20 any -P in ipsec
+    ah/transport//require;
+
+# SAD: security associations
+add 10.0.0.20 10.0.2.20 ah 0x1001 -A hmac-sha256 "1234567890abcdef1234567890abcdef";
+add 10.0.2.20 10.0.0.20 ah 0x1002 -A hmac-sha256 "1234567890abcdef1234567890abcdef";
+                                                                                                                                                              root@n1:/home/core/homeworks/HW4# setkey -f ./n1_ah_transport.conf                                                                                           
+root@n1:/home/core/homeworks/HW4# setkey -D                        
+10.0.2.20 10.0.0.20 
+	ah mode=transport spi=4098(0x00001002) reqid=0(0x00000000)
+	A: hmac-sha256  31323334 35363738 39306162 63646566 31323334 35363738 39306162 63646566
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:41:44 2025	current: Nov 21 20:41:48 2025
+	diff: 4(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=1 pid=58 refcnt=0
+10.0.0.20 10.0.2.20 
+	ah mode=transport spi=4097(0x00001001) reqid=0(0x00000000)
+	A: hmac-sha256  31323334 35363738 39306162 63646566 31323334 35363738 39306162 63646566
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:41:44 2025	current: Nov 21 20:41:48 2025
+	diff: 4(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=0 pid=58 refcnt=0
+root@n1:/home/core/homeworks/HW4# setkey -DP
+10.0.2.20[any] 10.0.0.20[any] 255
+	fwd prio def ipsec
+	ah/transport//require
+	created: Nov 21 20:41:44 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=66 seq=1 pid=59
+	refcnt=1
+10.0.2.20[any] 10.0.0.20[any] 255
+	in prio def ipsec
+	ah/transport//require
+	created: Nov 21 20:41:44 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=56 seq=2 pid=59
+	refcnt=1
+10.0.0.20[any] 10.0.2.20[any] 255
+	out prio def ipsec
+	ah/transport//require
+	created: Nov 21 20:41:44 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=49 seq=0 pid=59
+	refcnt=1
+root@n1:/home/core/homeworks/HW4# 
+
+-----------------------------------------------------------------------------
+
+root@n2:/home/core/homeworks/HW4# setkey -F
+root@n2:/home/core/homeworks/HW4# setkey -FP
+root@n2:/home/core/homeworks/HW4# setkey -D 
+No SAD entries.
+root@n2:/home/core/homeworks/HW4# setkey -DP
+No SPD entries.
+root@n2:/home/core/homeworks/HW4# cat n2_ah_transport.conf 
+flush;
+spdflush;
+
+# SPD
+spdadd 10.0.2.20 10.0.0.20 any -P out ipsec
+    ah/transport//require;
+
+spdadd 10.0.0.20 10.0.2.20 any -P in ipsec
+    ah/transport//require;
+
+# SAD
+add 10.0.2.20 10.0.0.20 ah 0x1002 -A hmac-sha256 "1234567890abcdef1234567890abcdef";
+add 10.0.0.20 10.0.2.20 ah 0x1001 -A hmac-sha256 "1234567890abcdef1234567890abcdef";
+                                                                                                                                                              root@n2:/home/core/homeworks/HW4# setkey -f ./n2_ah_transport.conf                                                                                           
+root@n2:/home/core/homeworks/HW4# setkey -D
+10.0.0.20 10.0.2.20 
+	ah mode=transport spi=4097(0x00001001) reqid=0(0x00000000)
+	A: hmac-sha256  31323334 35363738 39306162 63646566 31323334 35363738 39306162 63646566
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:43:06 2025	current: Nov 21 20:43:14 2025
+	diff: 8(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=1 pid=52 refcnt=0
+10.0.2.20 10.0.0.20 
+	ah mode=transport spi=4098(0x00001002) reqid=0(0x00000000)
+	A: hmac-sha256  31323334 35363738 39306162 63646566 31323334 35363738 39306162 63646566
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:43:06 2025	current: Nov 21 20:43:14 2025
+	diff: 8(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=0 pid=52 refcnt=0
+root@n2:/home/core/homeworks/HW4# setkey -DP
+10.0.0.20[any] 10.0.2.20[any] 255
+	fwd prio def ipsec
+	ah/transport//require
+	created: Nov 21 20:43:06 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=66 seq=1 pid=53
+	refcnt=1
+10.0.0.20[any] 10.0.2.20[any] 255
+	in prio def ipsec
+	ah/transport//require
+	created: Nov 21 20:43:06 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=56 seq=2 pid=53
+	refcnt=1
+10.0.2.20[any] 10.0.0.20[any] 255
+	out prio def ipsec
+	ah/transport//require
+	created: Nov 21 20:43:06 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=49 seq=0 pid=53
+	refcnt=1
+root@n2:/home/core/homeworks/HW4# 
+
+---------------------------------------------------------------------------
+
+root@n3:/home/core/homeworks/HW4# setkey -F
+root@n3:/home/core/homeworks/HW4# setkey -FP
+root@n3:/home/core/homeworks/HW4# setkey -D 
+No SAD entries.
+root@n3:/home/core/homeworks/HW4# setkey -DP
+No SPD entries.
+root@n3:/home/core/homeworks/HW4# cat n3_ah_tunnel.conf 
+flush;
+spdflush;
+
+# SPD
+spdadd 10.0.0.0/24 10.0.2.0/24 any -P out ipsec
+    ah/tunnel/10.0.1.1-10.0.1.2/require;
+
+spdadd 10.0.2.0/24 10.0.0.0/24 any -P in ipsec
+    ah/tunnel/10.0.1.2-10.0.1.1/require;
+
+# TUNNEL SAs (IMPORTANT)
+add 10.0.1.1 10.0.1.2 ah 0x4001 -m tunnel -A hmac-sha256 "11223344556677889900aabbccddeeff";
+add 10.0.1.2 10.0.1.1 ah 0x4002 -m tunnel -A hmac-sha256 "11223344556677889900aabbccddeeff";
+                                                                                                                                                              root@n3:/home/core/homeworks/HW4# setkey -f n3_ah_tunnel.conf                                                                                                
+root@n3:/home/core/homeworks/HW4# setkey -D
+10.0.1.2 10.0.1.1 
+	ah mode=tunnel spi=16386(0x00004002) reqid=0(0x00000000)
+	A: hmac-sha256  31313232 33333434 35353636 37373838 39393030 61616262 63636464 65656666
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:44:01 2025	current: Nov 21 20:44:03 2025
+	diff: 2(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=1 pid=94 refcnt=0
+10.0.1.1 10.0.1.2 
+	ah mode=tunnel spi=16385(0x00004001) reqid=0(0x00000000)
+	A: hmac-sha256  31313232 33333434 35353636 37373838 39393030 61616262 63636464 65656666
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:44:01 2025	current: Nov 21 20:44:03 2025
+	diff: 2(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=0 pid=94 refcnt=0
+root@n3:/home/core/homeworks/HW4# setkey -DP
+10.0.2.0/24[any] 10.0.0.0/24[any] 255
+	fwd prio def ipsec
+	ah/tunnel/10.0.1.2-10.0.1.1/require
+	created: Nov 21 20:44:01 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=42 seq=1 pid=95
+	refcnt=1
+10.0.2.0/24[any] 10.0.0.0/24[any] 255
+	in prio def ipsec
+	ah/tunnel/10.0.1.2-10.0.1.1/require
+	created: Nov 21 20:44:01 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=32 seq=2 pid=95
+	refcnt=1
+10.0.0.0/24[any] 10.0.2.0/24[any] 255
+	out prio def ipsec
+	ah/tunnel/10.0.1.1-10.0.1.2/require
+	created: Nov 21 20:44:01 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=25 seq=0 pid=95
+	refcnt=1
+root@n3:/home/core/homeworks/HW4# 
+
+-----------------------------------------------------------------------------
+
+root@n4:/home/core/homeworks/HW4# setkey -F
+root@n4:/home/core/homeworks/HW4# setkey -FP
+root@n4:/home/core/homeworks/HW4# setkey -D 
+No SAD entries.
+root@n4:/home/core/homeworks/HW4# setkey -DP
+No SPD entries.
+root@n4:/home/core/homeworks/HW4# cat n4_ah_tunnel.conf 
+flush;
+spdflush;
+
+# SPD
+spdadd 10.0.2.0/24 10.0.0.0/24 any -P out ipsec
+    ah/tunnel/10.0.1.2-10.0.1.1/require;
+
+spdadd 10.0.0.0/24 10.0.2.0/24 any -P in ipsec
+    ah/tunnel/10.0.1.1-10.0.1.2/require;
+
+# TUNNEL SAs
+add 10.0.1.2 10.0.1.1 ah 0x4002 -m tunnel -A hmac-sha256 "11223344556677889900aabbccddeeff";
+add 10.0.1.1 10.0.1.2 ah 0x4001 -m tunnel -A hmac-sha256 "11223344556677889900aabbccddeeff";
+root@n4:/home/core/homeworks/HW4# setkey -f n4_ah_tunnel.conf                                                                                                
+root@n4:/home/core/homeworks/HW4# setkey -D
+10.0.1.1 10.0.1.2 
+	ah mode=tunnel spi=16385(0x00004001) reqid=0(0x00000000)
+	A: hmac-sha256  31313232 33333434 35353636 37373838 39393030 61616262 63636464 65656666
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:45:07 2025	current: Nov 21 20:45:14 2025
+	diff: 7(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=1 pid=94 refcnt=0
+10.0.1.2 10.0.1.1 
+	ah mode=tunnel spi=16386(0x00004002) reqid=0(0x00000000)
+	A: hmac-sha256  31313232 33333434 35353636 37373838 39393030 61616262 63636464 65656666
+	seq=0x00000000 replay=0 flags=0x00000000 state=mature 
+	created: Nov 21 20:45:07 2025	current: Nov 21 20:45:14 2025
+	diff: 7(s)	hard: 0(s)	soft: 0(s)
+	last:                     	hard: 0(s)	soft: 0(s)
+	current: 0(bytes)	hard: 0(bytes)	soft: 0(bytes)
+	allocated: 0	hard: 0	soft: 0
+	sadb_seq=0 pid=94 refcnt=0
+root@n4:/home/core/homeworks/HW4# setkey -DP
+10.0.0.0/24[any] 10.0.2.0/24[any] 255
+	fwd prio def ipsec
+	ah/tunnel/10.0.1.1-10.0.1.2/require
+	created: Nov 21 20:45:07 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=42 seq=1 pid=95
+	refcnt=1
+10.0.0.0/24[any] 10.0.2.0/24[any] 255
+	in prio def ipsec
+	ah/tunnel/10.0.1.1-10.0.1.2/require
+	created: Nov 21 20:45:07 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=32 seq=2 pid=95
+	refcnt=1
+10.0.2.0/24[any] 10.0.0.0/24[any] 255
+	out prio def ipsec
+	ah/tunnel/10.0.1.2-10.0.1.1/require
+	created: Nov 21 20:45:07 2025  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=25 seq=0 pid=95
+	refcnt=1
+root@n4:/home/core/homeworks/HW4# 
+
+-----------------------------------------------------------------------------
+
+
