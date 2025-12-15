@@ -1,0 +1,25 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww15380\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <WARD -p icmp --icmp-type echo-request -s 10.0.0.1 \\\
+>   -m statistic --mode random --probability 0.1 -j DROP\
+<ORWARD -p icmp --icmp-type echo-reply -s 10.0.2.2 \\\
+>   -m statistic --mode random --probability 0.1 -j DROP\
+root@n2:/tmp/pycore.1/n2.conf# \
+root@n2:/tmp/pycore.1/n2.conf# iptables -L -n -v                                    \
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)\
+ pkts bytes target     prot opt in     out     source               destination         \
+\
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)\
+ pkts bytes target     prot opt in     out     source               destination         \
+   59  4956            icmp --  *      *       10.0.0.1             0.0.0.0/0            icmptype 8\
+    6   504 DROP       icmp --  *      *       10.0.0.1             0.0.0.0/0            icmptype 8 statistic mode random probability 0.10000000009\
+    6   504 DROP       icmp --  *      *       10.0.2.2             0.0.0.0/0            icmptype 0 statistic mode random probability 0.10000000009\
+\
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)\
+ pkts bytes target     prot opt in     out     source               destination         \
+root@n2:/tmp/pycore.1/n2.conf#  }
