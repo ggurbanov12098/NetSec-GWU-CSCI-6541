@@ -1,0 +1,8 @@
+
+BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
+00:13:46:20:3C:E6, 2016-06-22 16:49:16, 2016-06-22 16:55:51,  1,  54, WEP, WEP, OPN, -27,     3506,      265,   0.  0.  0.  0,   8, CSCI6451, 
+
+Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
+B4:AE:2B:C2:50:BB, 2016-06-22 16:52:25, 2016-06-22 16:54:00, -29,       34, 00:13:46:20:3C:E6,
+00:C0:CA:66:6D:BC, 2016-06-22 16:53:30, 2016-06-22 16:55:31,   0,     8707, 00:13:46:20:3C:E6,
+
